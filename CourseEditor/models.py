@@ -4,3 +4,4 @@ from django.db import models
 class Course(models.Model):
     course_name = models.CharField(max_length=20, default='None')
     course_code = models.CharField(max_length=20, default='None')
+    course_field_names = ['course_name','course_code']

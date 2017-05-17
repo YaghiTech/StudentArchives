@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<form method="POST" name={{course.course_name}}>
-    {% csrf_token %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+     <form method="POST" name='list'>
+         {% csrf_token %}
+         {% for course in all_courses %}
+          <h1>{{course.course_name}} : {{course.course_code}} + course id is {{course.id}}</h1>
+         <button type = 'submit' name = '{{course.id}}' value = '1'>edit</button>
+         {% endfor %}
 
-    <head>
-        <meta charset="UTF-8">
 
-        <title>Course Editor</title>
-        <h3>Course name:</h3> <input type="text" name="course_name" placeholder="{{course.course_name}}" />
-        <h3>Course code:</h3> <input type="text" name="course_id" placeholder="{{course.course_code}}" />
-
-    </head>
-</form>
+    </form>
+</body>
+</html>

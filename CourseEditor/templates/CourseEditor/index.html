@@ -8,10 +8,11 @@
      <form method="POST" name='list'>
          {% csrf_token %}
          {% for course in all_courses %}
-          <h1>{{course.course_name}} : {{course.course_code}} + course id is {{course.id}}</h1>
-         <button type = 'submit' name = '{{course.id}}' value = '1'>edit</button>
+         <button type = 'submit' name = 'view{{course.id}}' value = '1'>{{course.course_name}} : {{course.course_code}}</button>
+         <button type = 'submit' name = 'edit{{course.id}}' value = '1'>edit</button>
+         <br>
          {% endfor %}
-
+         <button type = 'submit' name = 'add_course' value = '1'>add course</button>
 
     </form>
 </body>

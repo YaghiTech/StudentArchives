@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+
+        <title>Course Editor</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <style>
+  #project-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+  #project-icon {
+    float: left;
+    height: 32px;
+    width: 32px;
+  }
+  #project-description {
+    margin: 0;
+    padding: 0;
+  }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    </head>
+<body>
+
+<h1>{{course.course_name}} : {{course.course_code}}</h1>
+<h1>students : </h1>
+    <form method="POST" name={{course.course_name}}>
+        {% csrf_token %}
+        {% if duplicate_student %}
+        <script>
+            alert('Student already in course');
+        </script>
+        {% endif %}
+        {% for student in all_students %}
+        <p> {{student.student_name}} {{student.student_last_name}}</p>
+        {% endfor %}
+        {% if add_student %}
+        <button type = 'submit' name = 'add_student' value = '1'>+</button>
+        {% else %}
+        <script>
+          $( function() {
+            var projects = [
+            {% for student in suggest_students %}
+              {
+                value: "{{student.student_name}} {{student.student_last_name}}",
+                label: "{{student.student_name}} {{student.student_last_name}}",
+                desc: "",
+              },
+              {% endfor %}
+
+            ];
+
+            $( "#project" ).autocomplete({
+              minLength: 0,
+              source: projects,
+              focus: function( event, ui ) {
+                $( "#project" ).val( ui.item.label );
+                return false;
+              },
+              select: function( event, ui ) {
+                $( "#project" ).val( ui.item.label );
+                $( "#project-id" ).val( ui.item.value );
+                $( "#project-description" ).html( ui.item.desc );
+                $( "#project-icon" ).attr( "src", "images/" + ui.item.icon );
+
+                return false;
+              }
+            })
+            .autocomplete( "instance" )._renderItem = function( ul, item ) {
+              return $( "<li>" )
+                .append( "<div>" + item.label + "<br>" + item.desc + "</div>" )
+                .appendTo( ul );
+            };
+          } );
+         </script>
+        <input type="text" name = 'new_student'id="project">
+
+        {% endif %}
+
+
+    </form>
+
+</body>

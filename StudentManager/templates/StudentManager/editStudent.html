@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{student.student_name}} {{student.student_last_name}}</title>
+</head>
+<body>
+    <form method="POST" name='succ'>
+
+        {% csrf_token %}
+
+
+        <input type="text" name="student_name" placeholder="{{student.student_name}}" />
+        <input type="text" name="student_last_name" placeholder="{{student.student_last_name}}" />
+        <br>
+        <select name = "student_age_month">
+            {% for month in months %}
+                {% if forloop.counter0|add:"1" != student.student_age.month %}
+                <option value="{{forloop.counter0}}">{{month}}</option>
+                {% else %}
+            <option selected="selected" value="{{forloop.counter0}}">{{month}}</option>
+
+                {%endif%}
+            {% endfor %}
+        </select>
+        <select name = 'student_age_day'>
+           {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
+            {% if forloop.counter0 != student.student_age.day %}
+                <option value="{{ forloop.counter0 }}">{{ forloop.counter0|add:"1" }}</option>
+            {% else %}
+                            <option selected="selected" value="{{ forloop.counter0 }}">{{ forloop.counter0|add:"1" }}</option>
+            {% endif %}
+
+           {% endfor %}
+        </select>
+
+        <select name = 'student_age_year'>
+           {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
+                {% if current_year|add:forloop.counter0 != student.student_age.year %}
+                    <option value="{{ forloop.counter0 }}">{{ forloop.counter0 }} : {{current_year|add:forloop.counter0 }}</option>
+                {% else %}
+                    <option selected="selected" value="{{ forloop.counter0 }}">{{ forloop.counter0 }} : {{current_year|add:forloop.counter0 }}</option>
+                {% endif %}
+           {% endfor %}
+        </select>
+
+        <div class="item-submit-button"> <button type="submit">Save</button> </div>
+    </form>
+</body>
+</html>

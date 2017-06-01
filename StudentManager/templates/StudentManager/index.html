@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+</head>
+<body>
+    <form method="POST" name={{course.course_name}}>
+    {% csrf_token %}
+
+    {% for student in all_students %}
+        <button type = 'submit' name = 'edit{{student.id}}' value = '1'>{{student.student_name}} {{student.student_last_name}}</button>
+    <br>
+    {% endfor %}
+        </form>
+</body>
+</html>

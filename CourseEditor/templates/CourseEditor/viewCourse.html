@@ -38,7 +38,7 @@
         </script>
         {% endif %}
         {% for student in all_students %}
-        <p> {{student.student_name}} {{student.student_last_name}}</p>
+        <p> {{student.student_name}} {{student.student_last_name}}  :  {{student.student_code}}</p>
         {% endfor %}
         {% if add_student %}
         <button type = 'submit' name = 'add_student' value = '1'>+</button>
@@ -79,8 +79,9 @@
             };
           } );
          </script>
-        <input type="text" name = 'new_student'id="project">
-
+        <input type="text" name = 'new_student'id="project" placeholder= 'Student Name'>
+        <input type="text" name = 'new_student_code' placeholder= 'Student Code'>
+        <button type="submit" value="1">Save</button>
         {% endif %}
 
 

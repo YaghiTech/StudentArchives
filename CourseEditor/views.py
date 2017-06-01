@@ -57,14 +57,16 @@ def add_student(request,course_id):
     except ObjectDoesNotExist:
         return HttpResponseRedirect('/')
     if request.method == 'POST':
-        request_text = request.POST.get('new_student', None)
-        if request_text == '' or request_text is None:
+        new_student_name = request.POST.get('new_student', None)
+        new_student_code = request.POST.get('new_student_code', None)
+
+        if new_student_name == '' or new_student_name is None:
             return HttpResponseRedirect('/courseList/course/' + course_id)
         else:
             try:
                 try:
-                    Student.objects.get(courses__id=course_id,student_name=request_text.split()[0],
-                                        student_last_name=request_text.split()[1])
+                    Student.objects.get(courses__id=course_id,student_name=new_student_name.split()[0],
+                                        student_last_name=new_student_name.split()[1])
 
                     return render(request, "CourseEditor/viewCourse.html",
                                   {'course': course,
@@ -73,14 +75,16 @@ def add_student(request,course_id):
                                    'duplicate_student': 'True'})
 
                 except ObjectDoesNotExist:
-                    student = Student.objects.get(student_name=request_text.split()[0],
-                                                  student_last_name=request_text.split()[1])
+                    student = Student.objects.get(student_name=new_student_name.split()[0],
+                                                  student_last_name=new_student_name.split()[1])
+                    if new_student_code != '':
+                        student.student_code = new_student_code
                     student.courses.add(course)
                     student.save()
             except ObjectDoesNotExist:
                 new_student = Student()
-                new_student.student_name, new_student.student_last_name = request_text.split()
-                new_student.student_code = '00000'
+                new_student.student_name, new_student.student_last_name = new_student_name.split()
+                new_student.student_code = new_student_code
                 new_student.save()
                 new_student.courses.add(course)
                 new_student.save()
